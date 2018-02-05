@@ -81,10 +81,6 @@
       <Project>{9d14c628-1272-414c-a35e-b4d031fc46f6}</Project>
       <Name>Operations</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ServiceLayer\ServiceLayer.csproj">
-      <Project>{bb6378b7-ac38-478a-afe2-2dd23b252215}</Project>
-      <Name>ServiceLayer</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
