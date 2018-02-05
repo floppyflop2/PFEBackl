@@ -36,8 +36,8 @@ namespace Operations
             switch (caller)
             {
               
-                //case "ContractStudent":
-                //    return new ContractStudentBusinessLogic();
+              case "User":
+                 return new UserBusinessLogic();
                 default:
                     return null;
             }

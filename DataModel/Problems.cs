@@ -18,13 +18,11 @@ namespace DataModel
         public string ProbDescription { get; set; }
         public string Photo { get; set; }
         public int MachineId { get; set; }
-        public int StudentId { get; set; }
+        public int UserId { get; set; }
         public System.DateTime DateProb { get; set; }
         public string Statut { get; set; }
         public bool Fixed { get; set; }
-        public int UsersUserId { get; set; }
     
         public virtual Machines Machines { get; set; }
-        public virtual Users Users { get; set; }
     }
 }

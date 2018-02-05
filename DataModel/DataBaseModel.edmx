@@ -23,7 +23,7 @@
           <Property Name="ProbDescription" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="Photo" Type="varchar(max)" />
           <Property Name="MachineId" Type="int" Nullable="false" />
-          <Property Name="StudentId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="DateProb" Type="date" Nullable="false" />
           <Property Name="Statut" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="Fixed" Type="bit" Nullable="false" />
@@ -109,13 +109,11 @@ warning 6002: The table/view 'PFEDatabase.sys.database_firewall_rules' does not 
           <Property Name="ProbDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Photo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="MachineId" Type="Int32" Nullable="false" />
-          <Property Name="StudentId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
           <Property Name="DateProb" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Statut" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Fixed" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Machines" Relationship="Self.FK_MachineIdProblem" FromRole="Problems" ToRole="Machines" />
-          <NavigationProperty Name="Users" Relationship="PFEDatabaseModel.ProblemsUsers" FromRole="Problems" ToRole="Users" />
-          <Property Name="UsersUserId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -124,7 +122,6 @@ warning 6002: The table/view 'PFEDatabase.sys.database_firewall_rules' does not 
           <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserEmail" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="AspNetUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Problems" Relationship="PFEDatabaseModel.ProblemsUsers" FromRole="Users" ToRole="Problems" />
         </EntityType>
         <EntityType Name="database_firewall_rules">
           <Key>
@@ -163,23 +160,7 @@ warning 6002: The table/view 'PFEDatabase.sys.database_firewall_rules' does not 
             <End Role="Machines" EntitySet="Machines" />
             <End Role="Problems" EntitySet="Problems" />
           </AssociationSet>
-          <AssociationSet Name="ProblemsUsers" Association="PFEDatabaseModel.ProblemsUsers">
-            <End Role="Problems" EntitySet="Problems" />
-            <End Role="Users" EntitySet="Users" />
-          </AssociationSet>
         </EntityContainer>
-        <Association Name="ProblemsUsers">
-          <End Type="PFEDatabaseModel.Problems" Role="Problems" Multiplicity="*" />
-          <End Type="PFEDatabaseModel.Users" Role="Users" Multiplicity="1" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="Problems">
-              <PropertyRef Name="UsersUserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -204,7 +185,7 @@ warning 6002: The table/view 'PFEDatabase.sys.database_firewall_rules' does not 
                 <ScalarProperty Name="ProbDescription" ColumnName="ProbDescription" />
                 <ScalarProperty Name="Photo" ColumnName="Photo" />
                 <ScalarProperty Name="MachineId" ColumnName="MachineId" />
-                <ScalarProperty Name="StudentId" ColumnName="StudentId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="DateProb" ColumnName="DateProb" />
                 <ScalarProperty Name="Statut" ColumnName="Statut" />
                 <ScalarProperty Name="Fixed" ColumnName="Fixed" />

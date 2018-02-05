@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Web.Http;
+﻿using System.Web.Http;
 using Microsoft.Owin.Security.OAuth;
-using Newtonsoft.Json.Serialization;
 
 namespace ServiceLayer
 {
@@ -20,6 +15,9 @@ namespace ServiceLayer
             // Itinéraires de l'API Web
             config.MapHttpAttributeRoutes();
 
+            //var enableCorsAttribute = new EnableCorsAttribute("*",
+            //                                   "Origin, Content-Type, Accept, Authorization",
+            //                                   "GET, PUT, POST, DELETE, OPTIONS");
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",

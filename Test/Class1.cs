@@ -1,15 +1,16 @@
-﻿using System;
+﻿using DataModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataModel
+namespace Test
 {
-    class Program
+  
+    public class Class1
     {
-        static void Main(string[] args)
-        {
+    
+
         }
     }
-}
