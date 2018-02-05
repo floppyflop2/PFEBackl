@@ -1,6 +1,7 @@
 ﻿using Service.Models;
 using System.Web.Http;
 using Operations;
+using DataModel;
 
 namespace ServiceLayer.Controllers
 {
@@ -40,15 +41,47 @@ namespace ServiceLayer.Controllers
             //   Operation.Modify(name, obj.FindCorrectDTO(), User.Identity.GetUserId());
             return "";
         }
-    }
 
-    internal class Users
-    {
-        public Users()
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        [Route("{name}/{id}")]
+        public object DispatchGet(string name, string id)
         {
+            return name == null ? "Give a name" : Operation.Get(name, id);
         }
 
-        public string AspNetUserId { get; set; }
-        public string UserEmail { get; set; }
+     
+        [HttpPost]
+        [Route("{name}")]
+        public object DispatchPost(RequestModel obj, string name)
+        {
+            //   return name == null ? "Give a name" : Operation.Add(name, obj.FindCorrectDTO(), User.Identity.GetUserId());
+            return null;
+        }
+
+
+
+        [Authorize(Roles = "Admin")]
+        [HttpDelete]
+        [Route("{name}")]
+        public object DispatchDelete(RequestModel obj, string name)
+        {
+            if (name == null)
+                return "Give a name";
+            Operation.Remove(name, obj.FindCorrectDTO());
+            return "";
+        }
+
+
+        [HttpGet]
+        [Route("Admin")]
+        public bool DispatchRole()
+        {
+            return User.IsInRole("Admin");
+        }
+
+
     }
+
+   
 }

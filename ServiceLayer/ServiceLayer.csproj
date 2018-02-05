@@ -340,6 +340,10 @@
       <Project>{6309038b-28f2-49fb-aeb0-00013dfcc5a9}</Project>
       <Name>DataMapper</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DataModel\DataModel.csproj">
+      <Project>{F89C7BB9-B568-4491-9011-B8F22B4175C9}</Project>
+      <Name>DataModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Operations\Operations.csproj">
       <Project>{9D14C628-1272-414C-A35E-B4D031FC46F6}</Project>
       <Name>Operations</Name>
