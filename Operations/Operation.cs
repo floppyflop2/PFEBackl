@@ -35,9 +35,14 @@ namespace Operations
         {
             switch (caller)
             {
-              
-              case "User":
-                 return new MachinesBusinessLogic();
+
+                case "User":
+                    return new UserBusinessLogic();
+                case "Machine":
+                    return new MachinesBusinessLogic();
+                case "Problem":
+                    return new ProblemsBusinessLogic();
+
                 default:
                     return null;
             }

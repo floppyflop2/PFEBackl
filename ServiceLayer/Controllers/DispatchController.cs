@@ -2,6 +2,7 @@
 using System.Web.Http;
 using Operations;
 using DataModel;
+using Models;
 
 namespace ServiceLayer.Controllers
 {
@@ -14,23 +15,9 @@ namespace ServiceLayer.Controllers
             //  return name == null ? "Give a name" : Operation.Get(name, User.Identity.GetUserId());
             return name == null ? "Give a name" : Operation.Get(name, "");
             //return null;
-
         }
 
-        [HttpGet]
-        [Route("Get")]
-        public object Get(string name)
-        {
-            Users a = new Users()
-            {
-                UserEmail = "aaaaa",
-                AspNetUserId = "aaaaaaaa"
-            };
-            //  return name == null ? "Give a name" : Operation.Get(name, User.Identity.GetUserId());
-            return a;
-            //return null;
-
-        }
+       // c'est le bordel att
 
         [HttpPut]
         [Route("{name}")]
@@ -56,8 +43,14 @@ namespace ServiceLayer.Controllers
         [Route("{name}")]
         public object DispatchPost(RequestModel obj, string name)
         {
-           // return name == null ? "Give a name" : Operation.Add(name, obj.FindCorrectDTO(), User.Identity.GetUserId());
+            // return name == null ? "Give a name" : Operation.Add(name, obj.FindCorrectDTO(), User.Identity.GetUserId());
+            //obj.UserDTO = new UserDTO()
+            //{
+            //    UserEmail ="aaa",
+            //    AspNetUserId = "bb"
+            //};
             return name == null ? "Give a name" : Operation.Add(name, obj.FindCorrectDTO(), "");
+
 
         }
 

@@ -76,12 +76,38 @@ namespace BusinessLogic
 
         public override void Modify(object obj, string id)
         {
-            throw new Exception("Not implemented for this object");
+            UserDTO user = (UserDTO)obj;
+
+            try
+            {
+                using (var db = new PFEDatabaseEntities())
+                {
+                    Users usr = db.Users.First(w => w.AspNetUserId == id);
+                    usr.UserEmail = user.UserEmail;
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
 
         public override void Remove(object obj)
         {
-            throw new Exception("Not implemented for this object");
+            UserDTO usr = (UserDTO)obj;
+            try
+            {
+                using (var db = new PFEDatabaseEntities())
+                {
+                    db.Users.Remove(db.Users.First(cont => cont.ContractId == usr.UserId));
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
 
 

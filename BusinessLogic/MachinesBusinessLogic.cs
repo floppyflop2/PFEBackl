@@ -3,6 +3,8 @@ using System;
 using System.Linq;
 using Models;
 using DataModel;
+using System.Collections.Generic;
+using static DataMapper.DatabaseMapper;
 
 namespace BusinessLogic
 {
