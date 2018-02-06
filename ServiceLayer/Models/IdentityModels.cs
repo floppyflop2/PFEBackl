@@ -21,7 +21,7 @@ namespace ServiceLayer.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DbModel", throwIfV1Schema: false)
+            : base("DataBaseModel", throwIfV1Schema: false)
         {
         }
         
