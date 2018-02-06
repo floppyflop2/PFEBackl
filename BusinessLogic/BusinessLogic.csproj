@@ -70,6 +70,10 @@
       <Project>{f4e3a560-39ab-414d-8347-24605eadd3f0}</Project>
       <Name>Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DataMapper\DataMapper.csproj">
+      <Project>{6309038b-28f2-49fb-aeb0-00013dfcc5a9}</Project>
+      <Name>DataMapper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataModel\DataModel.csproj">
       <Project>{f89c7bb9-b568-4491-9011-b8f22b4175c9}</Project>
       <Name>DataModel</Name>

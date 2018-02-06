@@ -32,11 +32,11 @@ namespace BusinessLogic
             {
                 using (var db = new PFEDatabaseEntities())
                 {
-                    var result = db.Users.FirstOrDefault(c => c.UserEmail == usr.Email);
+                    var result = db.Users.FirstOrDefault(c => c.UserEmail == usr.UserEmail);
                     if (!obj.Equals(result))
                         db.Users.Add(new Users()
                         {
-                            UserEmail = usr.Email,
+                            UserEmail = usr.UserEmail,
                             AspNetUserId = userId
                         });
                     db.SaveChanges();
