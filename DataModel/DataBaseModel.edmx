@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="PFEDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="PFEDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Machines">
           <Key>
             <PropertyRef Name="MachineId" />
@@ -14,6 +14,7 @@
           <Property Name="MacAddress" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="Comment" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="Statut" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="local" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Problems">
           <Key>
@@ -36,8 +37,8 @@
           <Property Name="UserEmail" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="AspNetUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'PFEDatabase.sys.database_firewall_rules' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Erreurs détectées durant la génération :
+avertissement 6002: La table/vue 'PFEDatabase.sys.database_firewall_rules' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
         <EntityType Name="database_firewall_rules">
           <Key>
             <PropertyRef Name="id" />
@@ -66,6 +67,20 @@ warning 6002: The table/view 'PFEDatabase.sys.database_firewall_rules' does not 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_User_Problem">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Problems" Type="Self.Problems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Problems">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="PFEDatabaseModelStoreContainer">
           <EntitySet Name="Machines" EntityType="Self.Machines" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Problems" EntityType="Self.Problems" Schema="dbo" store:Type="Tables" />
@@ -84,9 +99,12 @@ warning 6002: The table/view 'PFEDatabase.sys.database_firewall_rules' does not 
             <End Role="Machines" EntitySet="Machines" />
             <End Role="Problems" EntitySet="Problems" />
           </AssociationSet>
+          <AssociationSet Name="FK_User_Problem" Association="Self.FK_User_Problem">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Problems" EntitySet="Problems" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="PFEDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -100,6 +118,7 @@ warning 6002: The table/view 'PFEDatabase.sys.database_firewall_rules' does not 
           <Property Name="Comment" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Statut" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Problems" Relationship="Self.FK_MachineIdProblem" FromRole="Machines" ToRole="Problems" />
+          <Property Name="local" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Problems">
           <Key>
@@ -114,6 +133,7 @@ warning 6002: The table/view 'PFEDatabase.sys.database_firewall_rules' does not 
           <Property Name="Statut" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Fixed" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Machines" Relationship="Self.FK_MachineIdProblem" FromRole="Problems" ToRole="Machines" />
+          <NavigationProperty Name="Users" Relationship="PFEDatabaseModel.FK_User_Problem" FromRole="Problems" ToRole="Users" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -122,6 +142,7 @@ warning 6002: The table/view 'PFEDatabase.sys.database_firewall_rules' does not 
           <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserEmail" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="AspNetUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Problems" Relationship="PFEDatabaseModel.FK_User_Problem" FromRole="Users" ToRole="Problems" />
         </EntityType>
         <EntityType Name="database_firewall_rules">
           <Key>
@@ -160,7 +181,25 @@ warning 6002: The table/view 'PFEDatabase.sys.database_firewall_rules' does not 
             <End Role="Machines" EntitySet="Machines" />
             <End Role="Problems" EntitySet="Problems" />
           </AssociationSet>
+          <AssociationSet Name="FK_User_Problem" Association="PFEDatabaseModel.FK_User_Problem">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Problems" EntitySet="Problems" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_User_Problem">
+          <End Type="PFEDatabaseModel.Users" Role="Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="PFEDatabaseModel.Problems" Role="Problems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Problems">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -170,6 +209,7 @@ warning 6002: The table/view 'PFEDatabase.sys.database_firewall_rules' does not 
           <EntitySetMapping Name="Machines">
             <EntityTypeMapping TypeName="PFEDatabaseModel.Machines">
               <MappingFragment StoreEntitySet="Machines">
+                <ScalarProperty Name="local" ColumnName="local" />
                 <ScalarProperty Name="MachineId" ColumnName="MachineId" />
                 <ScalarProperty Name="MachineName" ColumnName="MachineName" />
                 <ScalarProperty Name="MacAddress" ColumnName="MacAddress" />
