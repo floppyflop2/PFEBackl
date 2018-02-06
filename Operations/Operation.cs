@@ -37,7 +37,7 @@ namespace Operations
             {
               
               case "User":
-                 return new UserBusinessLogic();
+                 return new MachinesBusinessLogic();
                 default:
                     return null;
             }

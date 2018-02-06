@@ -7,5 +7,6 @@
         public string MacAddress { get; set; }
         public string Comment { get; set; }
         public string Statut { get; set; }
+        public string local { get; set; }
     }
 }

@@ -61,6 +61,8 @@
   <ItemGroup>
     <Compile Include="BaseBusinessLogic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="MachinesBusinessLogic.cs" />
+    <Compile Include="ProblemsBusinessLogic.cs" />
     <Compile Include="UserBusinessLogic.cs" />
   </ItemGroup>
   <ItemGroup>
