@@ -12,20 +12,12 @@ namespace DataModel
     using System;
     using System.Collections.Generic;
     
-    public partial class Users
+    public partial class AspNetUserLogins
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Users()
-        {
-            this.Problems = new HashSet<Problems>();
-        }
+        public string LoginProvider { get; set; }
+        public string ProviderKey { get; set; }
+        public string UserId { get; set; }
     
-        public int UserId { get; set; }
-        public string UserEmail { get; set; }
-        public string AspNetUserId { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Problems> Problems { get; set; }
         public virtual AspNetUsers AspNetUsers { get; set; }
     }
 }

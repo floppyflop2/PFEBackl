@@ -13,7 +13,7 @@ namespace BusinessLogic
             object obj;
             try
             {
-                using(var db = new PFEDatabaseEntities())
+                using (var db = new PFEDatabaseEntities())
                 {
                     obj = db.Users.First();
                 }
@@ -25,20 +25,25 @@ namespace BusinessLogic
             return obj;
         }
 
-        public override object Add(object obj, string userId)
+        public override object Add(object obj, string ProbId)
         {
-            UserDTO usr = (UserDTO)obj;
+            ProblemsDTO prob = (ProblemsDTO)obj;
             try
             {
                 using (var db = new PFEDatabaseEntities())
                 {
-                    var result = db.Users.FirstOrDefault(c => c.UserEmail == usr.UserEmail);
-                    if (!obj.Equals(result))
-                        db.Users.Add(new Users()
-                        {
-                            UserEmail = usr.UserEmail,
-                            AspNetUserId = userId
-                        });
+                    //var result = db.Problems.FirstOrDefault(c => c.ProblemId == prob.ProblemId);
+                    //if (!obj.Equals(result))
+                    db.Problems.Add(new Problems()
+                    {
+                        DateProb = prob.DateProb,//TODO on mets la date nous même  ? 
+                        Fixed = false,
+                        MachineId = db.Machines.Where(m => m.MachineId == prob.MachineId).First().MachineId,
+                        UserId = db.Users.Where(u => u.UserId == prob.UserId).First().UserId,
+                        Photo = prob.Photo,
+                        ProbDescription = prob.ProbDescription,
+                        Statut = prob.Statut
+                    });
                     db.SaveChanges();
                 }
             }
@@ -51,12 +56,59 @@ namespace BusinessLogic
 
         public override void Modify(object obj, string id)
         {
-            throw new Exception("Not implemented for this object");
+            ProblemsDTO prob = (ProblemsDTO)obj;
+            try
+            {
+                using (var db = new PFEDatabaseEntities())
+                {
+                    if (db.Problems.Where(p => p.ProblemId == prob.ProblemId).Count() == 0)
+                        return;
+
+                    db.Problems.Remove(db.Problems.First(p => p.ProblemId == prob.ProblemId));
+
+                    db.SaveChanges();
+
+
+                    db.Problems.Add(new Problems()
+                    {
+                        DateProb = prob.DateProb,//TODO on mets la date nous même  ? 
+                        Fixed = false,
+                        MachineId = db.Machines.Where(m => m.MachineId == prob.MachineId).First().MachineId,
+                        UserId = db.Users.Where(u => u.UserId == prob.UserId).First().UserId,
+                        Photo = prob.Photo,
+                        ProbDescription = prob.ProbDescription,
+                        Statut = prob.Statut
+                    });
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
 
         public override void Remove(object obj)
         {
-            throw new Exception("Not implemented for this object");
+            ProblemsDTO prob = (ProblemsDTO)obj;
+
+            try
+            {
+                using (var db = new PFEDatabaseEntities())
+                {
+                    if (db.Problems.Where(p => p.ProblemId == prob.ProblemId).Count() == 0)
+                        return;
+
+                    db.Problems.Remove(db.Problems.First(p => p.ProblemId == prob.ProblemId));
+
+                    db.SaveChanges();
+
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
 
 

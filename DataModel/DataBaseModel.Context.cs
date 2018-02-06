@@ -28,6 +28,9 @@ namespace DataModel
         public virtual DbSet<Machines> Machines { get; set; }
         public virtual DbSet<Problems> Problems { get; set; }
         public virtual DbSet<Users> Users { get; set; }
-        public virtual DbSet<database_firewall_rules> database_firewall_rules { get; set; }
+        public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
+        public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
+        public virtual DbSet<AspNetUserLogins> AspNetUserLogins { get; set; }
+        public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
     }
 }

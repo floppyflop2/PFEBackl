@@ -17,7 +17,7 @@ namespace ServiceLayer.Controllers
             //return null;
         }
 
-       // c'est le bordel att
+        // c'est le bordel att
 
         [HttpPut]
         [Route("{name}")]
@@ -25,33 +25,27 @@ namespace ServiceLayer.Controllers
         {
             if (name == null)
                 return "Give a name";
-           //   Operation.Modify(name, obj.FindCorrectDTO(), User.Identity.GetUserId());
+            //Operation.Modify(name, obj.FindCorrectDTO(), User.Identity.GetUserId());
+            Operation.Modify(name, obj.FindCorrectDTO(), "");
             return "";
         }
 
         [HttpGet]
-    //    [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [Route("{name}/{id}")]
         public object DispatchGet(string name, string id)
         {
-            var result=  name == null ? "Give a name" : Operation.Get(name, id);
+            var result = name == null ? "Give a name" : Operation.Get(name, id);
             return result;
         }
 
-     
+
         [HttpPost]
         [Route("{name}")]
         public object DispatchPost(RequestModel obj, string name)
         {
             // return name == null ? "Give a name" : Operation.Add(name, obj.FindCorrectDTO(), User.Identity.GetUserId());
-            //obj.UserDTO = new UserDTO()
-            //{
-            //    UserEmail ="aaa",
-            //    AspNetUserId = "bb"
-            //};
             return name == null ? "Give a name" : Operation.Add(name, obj.FindCorrectDTO(), "");
-
-
         }
 
 
@@ -78,5 +72,5 @@ namespace ServiceLayer.Controllers
 
     }
 
-   
+
 }

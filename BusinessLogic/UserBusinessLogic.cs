@@ -100,7 +100,7 @@ namespace BusinessLogic
             {
                 using (var db = new PFEDatabaseEntities())
                 {
-                    db.Users.Remove(db.Users.First(cont => cont.ContractId == usr.UserId));
+                    db.Users.Remove(db.Users.First(u => u.UserId == usr.UserId));
                     db.SaveChanges();
                 }
             }
@@ -109,12 +109,8 @@ namespace BusinessLogic
                 throw new Exception(e.Message);
             }
         }
-
-
-        public void Dispose()
-        {
-
-        }
+        
+        public void Dispose(){        }
 
     }
 }

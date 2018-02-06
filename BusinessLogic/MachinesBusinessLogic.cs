@@ -27,19 +27,19 @@ namespace BusinessLogic
             return MapToMachinesDTO(result);
         }
 
-        public override object Get(string userId)
+        public override object Get(string id)
         {
 
             int machineId = 0;
             List<Machines> result = null;
 
             // GETS ALL THE MACHINES IF ID == 0
-            if (userId == "0")
+            if (id == "0")
             {
                 return GetAll();
             }
 
-            if (!Int32.TryParse(userId, out machineId))
+            if (!Int32.TryParse(id, out machineId))
             {
                 try
                 {
@@ -70,21 +70,20 @@ namespace BusinessLogic
             return MapToMachinesDTO(result);
         }
 
-        public override object Add(object obj, string userId)
+        public override object Add(object obj, string id)
         {
             MachinesDTO machine = (MachinesDTO)obj;
-            int integerId = Int32.Parse(userId);
+           // int integerId = Int32.Parse(id);
             try
             {
                 using (var db = new PFEDatabaseEntities())
                 {
-                    if (db.Machines.Where(cont => cont.MachineId == integerId).Count() > 0)
+                    if (db.Machines.Where(cont => cont.MachineName == machine.MachineName).Count() > 0)
                         return "Already exists.";
 
                     db.Machines.Add(
                         new Machines()
                         {
-                            MachineId = machine.MachineId,
                             MachineName = machine.MachineName,
                             MacAddress = machine.MacAddress,
                             Comment = machine.Comment,
@@ -105,21 +104,20 @@ namespace BusinessLogic
         public override void Modify(object obj, string userId)
         {
             MachinesDTO machine = (MachinesDTO)obj;
-            int integerId = Int32.Parse(userId);
+           //int integerId = Int32.Parse(userId);
             try
             {
                 using (var db = new PFEDatabaseEntities())
                 {
-                    if (db.Machines.Where(w => w.MachineId == integerId).Count() == 0)
+                    if (db.Machines.Where(w => w.MachineName == machine.MachineName).Count() == 0)
                         return;
 
-                    db.Machines.Remove(db.Machines.First(contr => contr.MachineId == integerId));
+                    db.Machines.Remove(db.Machines.First(contr => contr.MachineName == machine.MachineName));
 
                     db.SaveChanges();
 
                     db.Machines.Add(new Machines()
                     {
-                        MachineId = machine.MachineId,
                         MachineName = machine.MachineName,
                         MacAddress = machine.MacAddress,
                         Comment = machine.Comment,
@@ -143,7 +141,7 @@ namespace BusinessLogic
             {
                 using (var db = new PFEDatabaseEntities())
                 {
-                    db.Machines.Remove(db.Machines.First(m => m.MachineId == machine.MachineId));
+                    db.Machines.Remove(db.Machines.First(m => m.MachineName == machine.MachineName));
                     db.SaveChanges();
                 }
             }
