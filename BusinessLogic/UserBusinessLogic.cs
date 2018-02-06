@@ -3,6 +3,8 @@ using System;
 using System.Linq;
 using Models;
 using DataModel;
+using System.Collections.Generic;
+using static DataMapper.DatabaseMapper;
 
 namespace BusinessLogic
 {
@@ -10,19 +12,42 @@ namespace BusinessLogic
     {
         public override object Get(string id)
         {
-            object obj;
+
+            List<UserDTO> result;
+            if (id == "0")
+            {
+                return GetAll();
+            }
+
             try
             {
-                using(var db = new PFEDatabaseEntities())
+                using (var db = new PFEDatabaseEntities())
                 {
-                    obj = db.Users.First();
+                    result = MapToUserDTO(db.Users.Where(u => u.AspNetUserId == id).ToList());
                 }
             }
             catch (Exception e)
             {
                 throw new Exception(e.Message);
             }
-            return obj;
+            return result;
+        }
+
+        public object GetAll()
+        {
+            List<UserDTO> result;
+            try
+            {
+                using (var db = new PFEDatabaseEntities())
+                {
+                    result = MapToUserDTO(db.Users.ToList());
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            return result;
         }
 
         public override object Add(object obj, string userId)

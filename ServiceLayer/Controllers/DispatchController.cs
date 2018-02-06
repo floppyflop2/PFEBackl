@@ -38,16 +38,17 @@ namespace ServiceLayer.Controllers
         {
             if (name == null)
                 return "Give a name";
-            //   Operation.Modify(name, obj.FindCorrectDTO(), User.Identity.GetUserId());
+           //   Operation.Modify(name, obj.FindCorrectDTO(), User.Identity.GetUserId());
             return "";
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+    //    [Authorize(Roles = "Admin")]
         [Route("{name}/{id}")]
         public object DispatchGet(string name, string id)
         {
-            return name == null ? "Give a name" : Operation.Get(name, id);
+            var result=  name == null ? "Give a name" : Operation.Get(name, id);
+            return result;
         }
 
      
@@ -55,13 +56,14 @@ namespace ServiceLayer.Controllers
         [Route("{name}")]
         public object DispatchPost(RequestModel obj, string name)
         {
-            //   return name == null ? "Give a name" : Operation.Add(name, obj.FindCorrectDTO(), User.Identity.GetUserId());
-            return null;
+           // return name == null ? "Give a name" : Operation.Add(name, obj.FindCorrectDTO(), User.Identity.GetUserId());
+            return name == null ? "Give a name" : Operation.Add(name, obj.FindCorrectDTO(), "");
+
         }
 
 
 
-        [Authorize(Roles = "Admin")]
+        //   [Authorize(Roles = "Admin")]
         [HttpDelete]
         [Route("{name}")]
         public object DispatchDelete(RequestModel obj, string name)
