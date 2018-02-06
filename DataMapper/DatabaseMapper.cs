@@ -31,7 +31,7 @@ namespace DataMapper
                 MacAddress = machine.MacAddress,
                 Comment = machine.Comment,
                 Statut = machine.Statut,
-                
+                local = machine.local
             };
         }
 
