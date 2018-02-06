@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace DataMapper
 {
-    public class DatabaseMapper
+    public static class DatabaseMapper
     {
         public static UserDTO MapToUserDTO(Users user)
         {
@@ -30,7 +30,8 @@ namespace DataMapper
                 MachineName = machine.MachineName,
                 MacAddress = machine.MacAddress,
                 Comment = machine.Comment,
-                Statut = machine.Statut
+                Statut = machine.Statut,
+                
             };
         }
 

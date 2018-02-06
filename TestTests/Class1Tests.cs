@@ -32,7 +32,7 @@ namespace Test.Tests
             {
                 UserDTO usr = DataMapper.DatabaseMapper.MapToUserDTO(db.Users.First());
 
-                Console.WriteLine(usr.Email);
+                Console.WriteLine(usr.UserEmail);
 
             }
 
