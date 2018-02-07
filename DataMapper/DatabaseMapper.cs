@@ -31,7 +31,22 @@ namespace DataMapper
                 MacAddress = machine.MacAddress,
                 Comment = machine.Comment,
                 Statut = machine.Statut,
-                local = machine.local
+                local = machine.local,
+                IpAddress = machine.IpAddress
+            };
+        }
+
+        public static Machines MapToMachines(MachinesDTO machine)
+        {
+            return new Machines()
+            {
+                //MachineId = rnd.Next(20000),
+                MachineName = machine.MachineName,
+                MacAddress = machine.MacAddress,
+                Comment = machine.Comment,
+                Statut = machine.Statut,
+                local = machine.local,
+                IpAddress = machine.IpAddress
             };
         }
 
@@ -39,6 +54,13 @@ namespace DataMapper
         {
             List<MachinesDTO> listOfMachines = new List<MachinesDTO>();
             machines.ForEach(m => listOfMachines.Add(MapToMachinesDTO(m)));
+            return listOfMachines;
+        }
+
+        public static List<Machines> MapToMachines(List<MachinesDTO> machines)
+        {
+            List<Machines> listOfMachines = new List<Machines>();
+            machines.ForEach(m => listOfMachines.Add(MapToMachines(m)));
             return listOfMachines;
         }
 

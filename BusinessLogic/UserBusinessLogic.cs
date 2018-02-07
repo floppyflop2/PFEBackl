@@ -57,7 +57,7 @@ namespace BusinessLogic
                 using (var db = new PFEDatabaseEntities())
                 {
                     var result = db.Users.FirstOrDefault(c => c.UserEmail == usr.UserEmail);
-                    if (!obj.Equals(result))
+                //    if (!obj.Equals(result))
                         db.Users.Add(new Users()
                         {
                             UserEmail = usr.UserEmail,
@@ -109,7 +109,7 @@ namespace BusinessLogic
             }
         }
         
-        public void Dispose(){        }
+     
 
     }
 }

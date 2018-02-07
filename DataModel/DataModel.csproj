@@ -96,6 +96,7 @@
     <Compile Include="Machines.cs">
       <DependentUpon>DataBaseModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="PFEDatabaseEntitiesFactory.cs" />
     <Compile Include="Problems.cs">
       <DependentUpon>DataBaseModel.tt</DependentUpon>
     </Compile>

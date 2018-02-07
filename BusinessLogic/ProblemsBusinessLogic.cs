@@ -3,6 +3,8 @@ using System;
 using System.Linq;
 using Models;
 using DataModel;
+using System.Collections.Generic;
+using static DataMapper.DatabaseMapper;
 
 namespace BusinessLogic
 {
@@ -10,19 +12,19 @@ namespace BusinessLogic
     {
         public override object Get(string id)
         {
-            object obj;
+            List<Problems> result;
             try
             {
                 using (var db = new PFEDatabaseEntities())
                 {
-                    obj = db.Users.First();
+                    result = db.Problems.ToList();
                 }
             }
             catch (Exception e)
             {
                 throw new Exception(e.Message);
             }
-            return obj;
+            return MapToProblemsDTO(result);
         }
 
         public override object Add(object obj, string ProbId)
@@ -37,7 +39,7 @@ namespace BusinessLogic
                     //if (!obj.Equals(result))
                     db.Problems.Add(new Problems()
                     {
-                        DateProb = prob.DateProb,//TODO on mets la date nous même  ? 
+                        DateProb = DateTime.Now,//TODO on mets la date nous même  ? 
                         Fixed = false,
                         MachineId = db.Machines.Where(m => m.MachineName == prob.MachineName).First().MachineId,
                         //UserId = db.Users.Where(u => u.UserId == prob.UserId).First().UserId,

@@ -1,4 +1,5 @@
 ﻿using BusinessLogic;
+using DataModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,6 @@ namespace Operations
 {
     public static class Operation
     {
-
         public static object Get(string caller, string id)
         {
             return GetBusinessLogic(caller).Get(id);
@@ -42,8 +42,10 @@ namespace Operations
                     return new MachinesBusinessLogic();
                 case "Problem":
                     return new ProblemsBusinessLogic();
-                case "QrCode":
+                case "QRCode":
                     return new QrCodeBusinessLogic();
+                case "Test":
+                    return new TestMachBiz();
                 default:
                     return null;
             }

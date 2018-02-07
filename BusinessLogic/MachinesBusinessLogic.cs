@@ -6,11 +6,19 @@ using DataModel;
 using System.Collections.Generic;
 using static DataMapper.DatabaseMapper;
 using System.Collections;
+using System.Data.Entity;
+using System.Data.Linq;
 
 namespace BusinessLogic
 {
     public class MachinesBusinessLogic : BaseBusinessLogic
     {
+        //private  PFEDatabaseEntities db; 
+        //public MachinesBusinessLogic(PFEDatabaseEntities dbx)
+        //{
+        //    this.db = dbx;
+        //}
+
         private object GetAll()
         {
             List<Machines> result = null;
@@ -18,7 +26,12 @@ namespace BusinessLogic
             {
                 using (var db = new PFEDatabaseEntities())
                 {
+
                     result = db.Machines.ToList();
+                    string text = result.ToString();
+
+                    Console.WriteLine(text);
+
                 }
             }
             catch (Exception e)
@@ -75,18 +88,34 @@ namespace BusinessLogic
         {
             List<MachinesDTO>
                 machines = (List<MachinesDTO>)obj;
-           
+            
 
             // int integerId = Int32.Parse(id);
+            string message = "";
+            string text = obj.ToString() + " \t ";
+            Console.WriteLine(text);
             try
             {
+
                 using (var db = new PFEDatabaseEntities())
                 {
                     foreach (MachinesDTO machine in machines)
                     {
 
-                        if (db.Machines.Where(cont => cont.MachineName == machine.MachineName).Count() > 0) continue;
-                   
+                        if (db.Machines.Where(cont => cont.MachineName == machine.MachineName).Count() > 0)
+                        {
+                            message += machine.MachineName + "existe déjà \t";
+                            Console.WriteLine(text);
+
+                            return message;
+                        }
+
+                        if (db.Machines.Where(cont => cont.MacAddress == machine.MacAddress).Count() > 0)
+                        {
+                            message += machine.MacAddress + "existe déjà  adress invalide \t";
+                            return message;
+                        }
+
                         db.Machines.Add(
                             new Machines()
                             {
@@ -97,7 +126,7 @@ namespace BusinessLogic
                                 local = machine.local,
                                 IpAddress = machine.IpAddress
                             }
-                        );
+                    );
                     }
 
                     db.SaveChanges();
@@ -105,9 +134,9 @@ namespace BusinessLogic
             }
             catch (Exception e)
             {
-                return e.Message;
+                return e.Message + e.StackTrace;
             }
-            return "";
+            return message;
         }
 
         public override void Modify(object obj, string userId)
@@ -120,21 +149,26 @@ namespace BusinessLogic
                 {
                     if (db.Machines.Where(w => w.MachineName == machine.MachineName).Count() == 0)
                         return;
+                    Machines m = db.Machines.First(contr => contr.MachineName == machine.MachineName);
+                    m.MachineName = machine.MachineName;
+                    m.MacAddress = machine.MacAddress;
+                    m.Comment = machine.Comment;
+                    m.Statut = machine.Statut;
+                    m.local = machine.local;
 
-                    db.Machines.Remove(db.Machines.First(contr => contr.MachineName == machine.MachineName));
-
-                    db.SaveChanges();
-
-                    db.Machines.Add(new Machines()
-                    {
-                        MachineName = machine.MachineName,
-                        MacAddress = machine.MacAddress,
-                        Comment = machine.Comment,
-                        Statut = machine.Statut,
-                        local = machine.local
-                    });
+                    //db.Machines.Remove(db.Machines.First(contr => contr.MachineName == machine.MachineName));
 
                     db.SaveChanges();
+
+                    //db.Machines.Add(new Machines()
+                    //{
+                    //    MachineName = machine.MachineName,
+                    //    MacAddress = machine.MacAddress,
+                    //    Comment = machine.Comment,
+                    //    Statut = machine.Statut,
+                    //    local = machine.local
+                    //});
+
                 }
             }
             catch (Exception e)
