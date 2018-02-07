@@ -66,6 +66,7 @@
           <Property Name="Comment" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="Statut" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="local" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="IpAddress" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="Problems">
           <Key>
@@ -236,6 +237,7 @@
           <Property Name="Statut" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Problems" Relationship="Self.FK_MachineIdProblem" FromRole="Machines" ToRole="Problems" />
           <Property Name="local" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IpAddress" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Problems">
           <Key>
@@ -425,6 +427,7 @@
           <EntitySetMapping Name="Machines">
             <EntityTypeMapping TypeName="PFEDatabaseModel.Machines">
               <MappingFragment StoreEntitySet="Machines">
+                <ScalarProperty Name="IpAddress" ColumnName="IpAddress" />
                 <ScalarProperty Name="local" ColumnName="local" />
                 <ScalarProperty Name="MachineId" ColumnName="MachineId" />
                 <ScalarProperty Name="MachineName" ColumnName="MachineName" />

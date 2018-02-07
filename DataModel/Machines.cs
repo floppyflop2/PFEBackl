@@ -26,6 +26,7 @@ namespace DataModel
         public string Comment { get; set; }
         public string Statut { get; set; }
         public string local { get; set; }
+        public string IpAddress { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Problems> Problems { get; set; }

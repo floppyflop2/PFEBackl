@@ -10,6 +10,7 @@ using Microsoft.Owin.Security.OAuth;
 using Owin;
 using ServiceLayer.Providers;
 using ServiceLayer.Models;
+using Microsoft.Owin.Cors;
 
 namespace ServiceLayer
 {
@@ -42,6 +43,8 @@ namespace ServiceLayer
                 // In production mode set AllowInsecureHttp = false
                 AllowInsecureHttp = true
             };
+
+            app.UseCors(CorsOptions.AllowAll);
 
             // Enable the application to use bearer tokens to authenticate users
             app.UseOAuthBearerTokens(OAuthOptions);
