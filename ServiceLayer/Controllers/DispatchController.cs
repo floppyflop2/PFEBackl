@@ -3,21 +3,21 @@ using System.Web.Http;
 using Operations;
 using DataModel;
 using Models;
+using Microsoft.AspNet.Identity;
 
 namespace ServiceLayer.Controllers
 {
     public class DispatchController : ApiController
     {
+
         [HttpGet]
         [Route("{name}")]
         public object DispatchGet(string name)
         {
             //  return name == null ? "Give a name" : Operation.Get(name, User.Identity.GetUserId());
             return name == null ? "Give a name" : Operation.Get(name, "");
-            //return null;
         }
 
-        // c'est le bordel att
 
         [HttpPut]
         [Route("{name}")]
@@ -25,8 +25,8 @@ namespace ServiceLayer.Controllers
         {
             if (name == null)
                 return "Give a name";
-            //Operation.Modify(name, obj.FindCorrectDTO(), User.Identity.GetUserId());
-            Operation.Modify(name, obj.FindCorrectDTO(), "");
+            Operation.Modify(name, obj.FindCorrectDTO(), User.Identity.GetUserId());
+            //Operation.Modify(name, obj.FindCorrectDTO(), "");
             return "";
         }
 
@@ -44,13 +44,11 @@ namespace ServiceLayer.Controllers
         [Route("{name}")]
         public object DispatchPost(RequestModel obj, string name)
         {
-            // return name == null ? "Give a name" : Operation.Add(name, obj.FindCorrectDTO(), User.Identity.GetUserId());
-            return name == null ? "Give a name" : Operation.Add(name, obj.FindCorrectDTO(), "");
+            return name == null ? "Give a name" : Operation.Add(name, obj.FindCorrectDTO(), User.Identity.GetUserId());
+            //  return name == null ? "Give a name" : Operation.Add(name, obj.FindCorrectDTO(), "");
         }
 
-
-
-        //   [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpDelete]
         [Route("{name}")]
         public object DispatchDelete(RequestModel obj, string name)
@@ -61,16 +59,11 @@ namespace ServiceLayer.Controllers
             return "";
         }
 
-
         [HttpGet]
         [Route("Admin")]
         public bool DispatchRole()
         {
             return User.IsInRole("Admin");
         }
-
-
-    }
-
-
+   }
 }

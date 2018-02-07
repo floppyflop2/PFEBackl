@@ -22,6 +22,7 @@ namespace DataModel
         public System.DateTime DateProb { get; set; }
         public string Statut { get; set; }
         public bool Fixed { get; set; }
+        public string UserEmail { get; set; }
     
         public virtual Machines Machines { get; set; }
         public virtual Users Users { get; set; }
