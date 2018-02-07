@@ -1,6 +1,7 @@
 ﻿using System.Web.Http;
 using Microsoft.Owin.Security.OAuth;
 
+
 namespace ServiceLayer
 {
     public static class WebApiConfig
@@ -11,6 +12,10 @@ namespace ServiceLayer
             // Configurer l'API Web pour utiliser uniquement l'authentification de jeton du porteur.
             config.SuppressDefaultHostAuthentication();
             config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
+
+            //var cors = new EnableCorsAttribute("*", "*", "*");
+            //config.EnableCors(cors);
+          
 
             // Itinéraires de l'API Web
             config.MapHttpAttributeRoutes();

@@ -8,5 +8,6 @@
         public string Comment { get; set; }
         public string Statut { get; set; }
         public string local { get; set; }
+        public string IpAddress { get; set; }
     }
 }

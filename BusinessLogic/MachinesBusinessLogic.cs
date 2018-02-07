@@ -88,7 +88,8 @@ namespace BusinessLogic
                             MacAddress = machine.MacAddress,
                             Comment = machine.Comment,
                             Statut = machine.Statut,
-                            local = machine.local
+                            local = machine.local,
+                            IpAddress = machine.IpAddress
                         }
                     );
                     db.SaveChanges();
