@@ -13,15 +13,24 @@ namespace Utils
 
         public void QRGen(string name, string location )
         {
-       
-            QRCodeGenerator qrGenerator = new QRCodeGenerator();
-            QRCodeData qrCodeData = qrGenerator.CreateQrCode("The text which should be encoded.", QRCodeGenerator.ECCLevel.Q);
-            System.Drawing.Image image = System.Drawing.Image.FromFile("Your image file path");
             Document doc = new Document(PageSize.A4);
             PdfWriter.GetInstance(doc, new FileStream("C:\\Users\\Florian\\Documents\\Visual Studio 2015\\Projects\\PFEBack\\image2.pdf", FileMode.Create));
             doc.Open();
-            iTextSharp.text.Image pdfImage = iTextSharp.text.Image.GetInstance(image, System.Drawing.Imaging.ImageFormat.Jpeg);
-            doc.Add(pdfImage);
+            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            string[] tab = { "zizi", "tout", "dur" };
+            Bitmap[] imgTab = new Bitmap[3];
+            int i = 0;
+            foreach(string s in tab)
+            {
+                QRCodeData qrCodeData = qrGenerator.CreateQrCode(s, QRCodeGenerator.ECCLevel.Q);
+                QRCode qrcode = new QRCode(qrCodeData);
+                Bitmap qrCodeImg = qrcode.GetGraphic(20);
+                imgTab[i++] = qrCodeImg;
+                System.Drawing.Image image = imgTab[i];
+                iTextSharp.text.Image pdfImage = iTextSharp.text.Image.GetInstance(image, System.Drawing.Imaging.ImageFormat.Jpeg);
+                doc.Add(pdfImage);
+            }
+
             doc.Close();
 
         }

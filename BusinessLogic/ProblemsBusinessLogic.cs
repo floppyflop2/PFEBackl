@@ -3,6 +3,8 @@ using System;
 using System.Linq;
 using Models;
 using DataModel;
+using System.Net.Mail;
+using System.Text;
 
 namespace BusinessLogic
 {
@@ -71,7 +73,7 @@ namespace BusinessLogic
 
                     db.Problems.Add(new Problems()
                     {
-                        DateProb = prob.DateProb,//TODO on mets la date nous même  ? 
+                        DateProb = DateTime.Now,//TODO on mets la date nous même  ? 
                         Fixed = false,
                         MachineId = db.Machines.Where(m => m.MachineId == prob.MachineId).First().MachineId,
                         UserId = db.Users.Where(u => u.UserId == prob.UserId).First().UserId,
@@ -80,6 +82,8 @@ namespace BusinessLogic
                         Statut = prob.Statut
                     });
                     db.SaveChanges();
+
+
                 }
             }
             catch (Exception e)
@@ -111,6 +115,25 @@ namespace BusinessLogic
             }
         }
 
+        public void SendMail(string message)
+        {
+
+            // Command line argument must the the SMTP host.
+            SmtpClient client = new SmtpClient();
+            client.Port = 587;
+            client.Host = "smtp.gmail.com";
+            client.EnableSsl = true;
+            client.Timeout = 10000;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = false;
+            client.Credentials = new System.Net.NetworkCredential("fakerage702@gmail.com", "plelatlirce");
+
+            MailMessage mm = new MailMessage("donotreply@domain.com", "fakerage702@gmail.com", message , message );
+            mm.BodyEncoding = UTF8Encoding.UTF8;
+            mm.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+
+            client.Send(mm);
+        }
 
         public void Dispose()
         {
