@@ -42,7 +42,8 @@ namespace Operations
                     return new MachinesBusinessLogic();
                 case "Problem":
                     return new ProblemsBusinessLogic();
-
+                case "QrCode":
+                    return new QrCodeBusinessLogic();
                 default:
                     return null;
             }

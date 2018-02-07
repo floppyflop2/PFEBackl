@@ -54,6 +54,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="QrCodeDTO.cs" />
     <Compile Include="MachinesDTO.cs" />
     <Compile Include="ProblemsDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
