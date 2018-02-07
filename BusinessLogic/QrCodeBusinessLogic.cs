@@ -4,11 +4,11 @@ using System.Linq;
 using Models;
 using DataModel;
 using System.Collections.Generic;
-using static DataMapper.DatabaseMapper;
 using QRCoder;
 using iTextSharp.text;
 using System.IO;
 using System.Drawing;
+using System.Linq.Expressions;
 
 namespace BusinessLogic
 {
@@ -17,8 +17,22 @@ namespace BusinessLogic
         
         public object Get(string id)
         {
+            // local017
+            // 0
+            // machine 
+
             BaseBusinessLogic mBiz = new MachinesBusinessLogic();
-            List<MachinesDTO> machines = (List<MachinesDTO>)mBiz.Get(id);
+            List<MachinesDTO> machines = (List<MachinesDTO>)mBiz.Get("0");
+
+            if (id.StartsWith("local"))
+            {
+                machines = machines.FindAll(w => w.local == id.Substring(4));
+            }
+            else if(id != "0")
+            {
+                machines = machines.FindAll(w => w.MachineName == id);
+            }
+
             Document doc = new Document(PageSize.A4);
             QRCodeGenerator qrGenerator = new QRCodeGenerator();
             MemoryStream workStream = new MemoryStream();
@@ -44,6 +58,6 @@ namespace BusinessLogic
             workStream.Write(byteInfo, 0, byteInfo.Length);
             workStream.Position = 0;
 
-            return FileResult(workStream, "application/pdf" , "qr_machines.pdf");
+            return File(workStream, "application/pdf" , "qr_machines.pdf");
     }
 }
