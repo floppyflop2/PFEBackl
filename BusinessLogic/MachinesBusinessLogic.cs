@@ -5,11 +5,12 @@ using Models;
 using DataModel;
 using System.Collections.Generic;
 using static DataMapper.DatabaseMapper;
+using System.Collections;
 
 namespace BusinessLogic
 {
     public class MachinesBusinessLogic : BaseBusinessLogic
-    { 
+    {
         private object GetAll()
         {
             List<Machines> result = null;
@@ -72,26 +73,33 @@ namespace BusinessLogic
 
         public override object Add(object obj, string id)
         {
-            MachinesDTO machine = (MachinesDTO)obj;
-           // int integerId = Int32.Parse(id);
+            List<MachinesDTO>
+                machines = (List<MachinesDTO>)obj;
+           
+
+            // int integerId = Int32.Parse(id);
             try
             {
                 using (var db = new PFEDatabaseEntities())
                 {
-                    if (db.Machines.Where(cont => cont.MachineName == machine.MachineName).Count() > 0)
-                        return "Already exists.";
+                    foreach (MachinesDTO machine in machines)
+                    {
 
-                    db.Machines.Add(
-                        new Machines()
-                        {
-                            MachineName = machine.MachineName,
-                            MacAddress = machine.MacAddress,
-                            Comment = machine.Comment,
-                            Statut = machine.Statut,
-                            local = machine.local,
-                            IpAddress = machine.IpAddress
-                        }
-                    );
+                        if (db.Machines.Where(cont => cont.MachineName == machine.MachineName).Count() > 0) continue;
+                   
+                        db.Machines.Add(
+                            new Machines()
+                            {
+                                MachineName = machine.MachineName,
+                                MacAddress = machine.MacAddress,
+                                Comment = machine.Comment,
+                                Statut = machine.Statut,
+                                local = machine.local,
+                                IpAddress = machine.IpAddress
+                            }
+                        );
+                    }
+
                     db.SaveChanges();
                 }
             }
@@ -105,7 +113,7 @@ namespace BusinessLogic
         public override void Modify(object obj, string userId)
         {
             MachinesDTO machine = (MachinesDTO)obj;
-           //int integerId = Int32.Parse(userId);
+            //int integerId = Int32.Parse(userId);
             try
             {
                 using (var db = new PFEDatabaseEntities())

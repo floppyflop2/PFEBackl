@@ -7,7 +7,7 @@ namespace Models
         public int ProblemId { get; set; }
         public string ProbDescription { get; set; }
         public string Photo { get; set; }
-        public int MachineId { get; set; }
+        public string MachineName { get; set; }
         public int UserId { get; set; }
         public DateTime DateProb { get; set; }
         public string Statut { get; set; }

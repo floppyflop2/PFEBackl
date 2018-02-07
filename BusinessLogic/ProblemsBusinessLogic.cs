@@ -28,6 +28,7 @@ namespace BusinessLogic
         public override object Add(object obj, string ProbId)
         {
             ProblemsDTO prob = (ProblemsDTO)obj;
+            if (prob.Statut == null) prob.Statut = "Random";
             try
             {
                 using (var db = new PFEDatabaseEntities())
@@ -38,8 +39,9 @@ namespace BusinessLogic
                     {
                         DateProb = prob.DateProb,//TODO on mets la date nous même  ? 
                         Fixed = false,
-                        MachineId = db.Machines.Where(m => m.MachineId == prob.MachineId).First().MachineId,
-                        UserId = db.Users.Where(u => u.UserId == prob.UserId).First().UserId,
+                        MachineId = db.Machines.Where(m => m.MachineName == prob.MachineName).First().MachineId,
+                        //UserId = db.Users.Where(u => u.UserId == prob.UserId).First().UserId,
+                        UserId = 1 ,//TODO to be modified if relation with user
                         Photo = prob.Photo,
                         ProbDescription = prob.ProbDescription,
                         Statut = prob.Statut,
@@ -72,7 +74,7 @@ namespace BusinessLogic
                     {
                         DateProb = DateTime.Now,
                         Fixed = false,
-                        MachineId = db.Machines.Where(m => m.MachineId == prob.MachineId).First().MachineId,
+                        MachineId = db.Machines.Where(m => m.MachineName == prob.MachineName).First().MachineId,
                         UserId = db.Users.Where(u => u.UserId == prob.UserId).First().UserId,
                         Photo = prob.Photo,
                         ProbDescription = prob.ProbDescription,

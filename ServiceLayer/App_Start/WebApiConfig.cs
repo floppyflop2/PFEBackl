@@ -1,6 +1,6 @@
 ﻿using System.Web.Http;
 using Microsoft.Owin.Security.OAuth;
-
+using System.Web.Http.Cors;
 
 namespace ServiceLayer
 {
@@ -13,16 +13,15 @@ namespace ServiceLayer
             config.SuppressDefaultHostAuthentication();
             config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
 
-            //var cors = new EnableCorsAttribute("*", "*", "*");
-            //config.EnableCors(cors);
           
-
             // Itinéraires de l'API Web
             config.MapHttpAttributeRoutes();
 
-            //var enableCorsAttribute = new EnableCorsAttribute("*",
-            //                                   "Origin, Content-Type, Accept, Authorization",
-            //                                   "GET, PUT, POST, DELETE, OPTIONS");
+            var enableCorsAttribute = new EnableCorsAttribute("*",
+                                     "Origin, Content-Type, Accept, Authorization",
+                                     "GET, PUT, POST, DELETE, OPTIONS");
+            config.EnableCors();
+
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",

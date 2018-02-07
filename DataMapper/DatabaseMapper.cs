@@ -49,7 +49,7 @@ namespace DataMapper
                 ProblemId = problem.ProblemId,
                 ProbDescription = problem.ProbDescription,
                 Photo = problem.Photo,
-                MachineId = problem.MachineId,
+                MachineName = problem.Machines.MachineName,
                 UserId = problem.UserId,
                 DateProb = problem.DateProb,
                 Statut = problem.Statut,
