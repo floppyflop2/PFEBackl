@@ -42,7 +42,8 @@ namespace BusinessLogic
                         UserId = db.Users.Where(u => u.UserId == prob.UserId).First().UserId,
                         Photo = prob.Photo,
                         ProbDescription = prob.ProbDescription,
-                        Statut = prob.Statut
+                        Statut = prob.Statut,
+                        UserEmail = prob.UserEmail
                     });
                     db.SaveChanges();
                 }
@@ -65,19 +66,19 @@ namespace BusinessLogic
                         return;
 
                     db.Problems.Remove(db.Problems.First(p => p.ProblemId == prob.ProblemId));
-
                     db.SaveChanges();
-
 
                     db.Problems.Add(new Problems()
                     {
-                        DateProb = prob.DateProb,//TODO on mets la date nous même  ? 
+                        DateProb = DateTime.Now,
                         Fixed = false,
                         MachineId = db.Machines.Where(m => m.MachineId == prob.MachineId).First().MachineId,
                         UserId = db.Users.Where(u => u.UserId == prob.UserId).First().UserId,
                         Photo = prob.Photo,
                         ProbDescription = prob.ProbDescription,
-                        Statut = prob.Statut
+                        Statut = prob.Statut,
+                        UserEmail = prob.UserEmail
+
                     });
                     db.SaveChanges();
                 }

@@ -18,7 +18,6 @@ namespace BusinessLogic
             {
                 return GetAll();
             }
-
             try
             {
                 using (var db = new PFEDatabaseEntities())

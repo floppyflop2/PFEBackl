@@ -12,5 +12,6 @@ namespace Models
         public DateTime DateProb { get; set; }
         public string Statut { get; set; }
         public bool isFixed { get; set; }
+        public string UserEmail { get; set; }
     }
 }

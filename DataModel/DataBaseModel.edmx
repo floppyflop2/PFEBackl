@@ -79,6 +79,7 @@
           <Property Name="DateProb" Type="date" Nullable="false" />
           <Property Name="Statut" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="Fixed" Type="bit" Nullable="false" />
+          <Property Name="UserEmail" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -250,6 +251,7 @@
           <Property Name="Fixed" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Machines" Relationship="Self.FK_MachineIdProblem" FromRole="Problems" ToRole="Machines" />
           <NavigationProperty Name="Users" Relationship="PFEDatabaseModel.FK_User_Problem" FromRole="Problems" ToRole="Users" />
+          <Property Name="UserEmail" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -435,6 +437,7 @@
           <EntitySetMapping Name="Problems">
             <EntityTypeMapping TypeName="PFEDatabaseModel.Problems">
               <MappingFragment StoreEntitySet="Problems">
+                <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
                 <ScalarProperty Name="ProblemId" ColumnName="ProblemId" />
                 <ScalarProperty Name="ProbDescription" ColumnName="ProbDescription" />
                 <ScalarProperty Name="Photo" ColumnName="Photo" />
