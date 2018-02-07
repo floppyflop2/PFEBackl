@@ -4,16 +4,16 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="137ccd4d89ae48b3a968daa32cf15d61" Name="Diagram1" ZoomLevel="90">
+      <Diagram DiagramId="137ccd4d89ae48b3a968daa32cf15d61" Name="Diagram1" ZoomLevel="102">
         <EntityTypeShape EntityType="PFEDatabaseModel.Machines" Width="1.5" PointX="13.875" PointY="7.25" IsExpanded="true" />
         <EntityTypeShape EntityType="PFEDatabaseModel.Problems" Width="1.5" PointX="11.75" PointY="7" IsExpanded="true" />
         <EntityTypeShape EntityType="PFEDatabaseModel.Users" Width="1.5" PointX="11.875" PointY="4.5" IsExpanded="true" />
         <AssociationConnector Association="PFEDatabaseModel.FK_MachineIdProblem" ManuallyRouted="false" />
         <AssociationConnector Association="PFEDatabaseModel.FK_User_Problem" />
-        <EntityTypeShape EntityType="PFEDatabaseModel.AspNetRoles" Width="1.5" PointX="7.375" PointY="4.5" />
-        <EntityTypeShape EntityType="PFEDatabaseModel.AspNetUserClaims" Width="1.5" PointX="11.875" PointY="1.75" />
-        <EntityTypeShape EntityType="PFEDatabaseModel.AspNetUserLogins" Width="1.5" PointX="4" PointY="4.75" />
-        <EntityTypeShape EntityType="PFEDatabaseModel.AspNetUsers" Width="1.5" PointX="9.625" PointY="3.25" />
+        <EntityTypeShape EntityType="PFEDatabaseModel.AspNetRoles" Width="1.5" PointX="7.375" PointY="7.625" />
+        <EntityTypeShape EntityType="PFEDatabaseModel.AspNetUserClaims" Width="1.5" PointX="8.375" PointY="3.25" />
+        <EntityTypeShape EntityType="PFEDatabaseModel.AspNetUserLogins" Width="1.5" PointX="7.375" PointY="5.5" />
+        <EntityTypeShape EntityType="PFEDatabaseModel.AspNetUsers" Width="1.5" PointX="9.625" PointY="5.375" />
         <AssociationConnector Association="PFEDatabaseModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="PFEDatabaseModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="PFEDatabaseModel.AspNetUserRoles" />
