@@ -26,12 +26,7 @@ namespace BusinessLogic
             {
                 using (var db = new PFEDatabaseEntities())
                 {
-
                     result = db.Machines.ToList();
-                    string text = result.ToString();
-
-                    Console.WriteLine(text);
-
                 }
             }
             catch (Exception e)
@@ -59,7 +54,7 @@ namespace BusinessLogic
                 {
                     using (var db = new PFEDatabaseEntities())
                     {
-                        result = db.Machines.Where(c => c.MachineId == machineId).ToList();
+                        result = db.Machines.Where(c => c.MachineName == id).ToList();
                     }
                 }
                 catch (Exception e)
@@ -88,7 +83,7 @@ namespace BusinessLogic
         {
             List<MachinesDTO>
                 machines = (List<MachinesDTO>)obj;
-            
+
 
             // int integerId = Int32.Parse(id);
             string message = "";

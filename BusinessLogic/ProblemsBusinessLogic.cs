@@ -10,7 +10,7 @@ namespace BusinessLogic
 {
     public class ProblemsBusinessLogic : BaseBusinessLogic
     {
-        public override object Get(string id)
+        public object GetAll()
         {
             List<Problems> result;
             try
@@ -23,6 +23,34 @@ namespace BusinessLogic
             catch (Exception e)
             {
                 throw new Exception(e.Message);
+            }
+            return MapToProblemsDTO(result);
+        }
+
+        public override object Get(string id)
+        {
+            int idProb;
+            List<Problems> result = null;
+            // GETS ALL THE MACHINES IF ID == 0
+            if (id == "0")
+            {
+                return GetAll();
+            }      
+            else
+            {
+                try
+                {
+
+                    idProb = Int32.Parse(id);
+                    using (var db = new PFEDatabaseEntities())
+                    {
+                        result = db.Problems.Where(c => c.ProblemId == idProb).ToList();
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw new Exception(e.Message);
+                }
             }
             return MapToProblemsDTO(result);
         }
@@ -43,7 +71,7 @@ namespace BusinessLogic
                         Fixed = false,
                         MachineId = db.Machines.Where(m => m.MachineName == prob.MachineName).First().MachineId,
                         //UserId = db.Users.Where(u => u.UserId == prob.UserId).First().UserId,
-                        UserId = 1 ,//TODO to be modified if relation with user
+                        UserId = 20,//TODO to be modified if relation with user
                         Photo = prob.Photo,
                         ProbDescription = prob.ProbDescription,
                         Statut = prob.Statut,
@@ -56,7 +84,7 @@ namespace BusinessLogic
             {
                 throw new Exception(e.Message);
             }
-            return "";
+            return "add succeeded";
         }
 
         public override void Modify(object obj, string id)
@@ -89,7 +117,7 @@ namespace BusinessLogic
             }
             catch (Exception e)
             {
-                throw new Exception(e.Message);
+                throw new Exception(e.Message + "problem modified");
             }
         }
 
@@ -112,7 +140,7 @@ namespace BusinessLogic
             }
             catch (Exception e)
             {
-                throw new Exception(e.Message);
+                throw new Exception(e.Message + "problem removing");
             }
         }
 

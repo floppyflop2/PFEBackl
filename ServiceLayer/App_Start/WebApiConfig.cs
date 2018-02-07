@@ -17,10 +17,10 @@ namespace ServiceLayer
             // Itinéraires de l'API Web
             config.MapHttpAttributeRoutes();
 
-            var enableCorsAttribute = new EnableCorsAttribute("*",
-                                     "Origin, Content-Type, Accept, Authorization",
-                                     "GET, PUT, POST, DELETE, OPTIONS");
-            config.EnableCors();
+            //var enableCorsAttribute = new EnableCorsAttribute("*",
+            //                         "Origin, Content-Type, Accept, Authorization",
+            //                         "GET, PUT, POST, DELETE, OPTIONS");
+            //config.EnableCors();
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
