@@ -1,20 +1,14 @@
-﻿
-using System;
-using System.Linq;
-using Models;
-using DataModel;
+﻿using Models;
 using System.Collections.Generic;
 using QRCoder;
 using iTextSharp.text;
 using System.IO;
-using System.Drawing;
-using System.Linq.Expressions;
 
 namespace BusinessLogic
 {
     public class QrCodeBusinessLogic : BaseBusinessLogic
     {
-        
+
         public object Get(string id)
         {
             // local017
@@ -28,7 +22,7 @@ namespace BusinessLogic
             {
                 machines = machines.FindAll(w => w.local == id.Substring(4));
             }
-            else if(id != "0")
+            else if (id != "0")
             {
                 machines = machines.FindAll(w => w.MachineName == id);
             }
@@ -39,7 +33,7 @@ namespace BusinessLogic
             int i = 0;
 
             doc.Open();
-            foreach(MachinesDTO m in machines)
+            foreach (MachinesDTO m in machines)
             {
                 QRCodeData qrCodeData = qrGenerator.CreateQrCode(m.MachineName, QRCodeGenerator.ECCLevel.Q);
                 QRCode qrcode = new QRCode(qrCodeData);
@@ -54,10 +48,12 @@ namespace BusinessLogic
             }
             doc.Close();
 
+            // clean le stream pas vraiment necessaire 
             byte[] byteInfo = workStream.ToArray();
             workStream.Write(byteInfo, 0, byteInfo.Length);
             workStream.Position = 0;
 
-            return File(workStream, "application/pdf" , "qr_machines.pdf");
+            return File(workStream, "application/pdf", "qr_machines.pdf");
+        }
     }
 }
