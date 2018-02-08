@@ -40,7 +40,7 @@ namespace BusinessLogic
             int i = 0;
             PdfWriter.GetInstance(doc, workStream);
             doc.Open();
-            doc.Add(new Paragraph("aight"));
+      //      doc.Add(new Paragraph("aight"));
             string url = "https://stormy-dawn-50375.herokuapp.com/report/";
             
             foreach (MachinesDTO m in machines)
@@ -58,14 +58,14 @@ namespace BusinessLogic
 
             byte[] pdf = workStream.ToArray();
             String base64 = Convert.ToBase64String(pdf);
-            /*HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
             result.Content = new ByteArrayContent(pdf);
             result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("inline");
             result.Content.Headers.ContentDisposition.FileName = "MyPdf.pdf";
             result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
-    */        
+            
     return "data:application/pdf;base64," + base64;
-            //return ;
+    //        return result;
         }
 
 

@@ -111,7 +111,7 @@ namespace BusinessLogic
                     Problems problem = db.Problems.Where(p => p.ProblemId == prob.ProblemId).First();
 
                     problem.DateProb = DateTime.Now;
-                    problem.Fixed = false;
+                    problem.Fixed = prob.isFixed;
                     problem.MachineId = db.Machines.Where(m => m.MachineName == prob.MachineName).First().MachineId;
                     problem.UserId = db.Users.Where(u => u.UserId == prob.UserId).First().UserId;
                     problem.Photo = prob.Photo;
