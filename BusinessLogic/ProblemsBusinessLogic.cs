@@ -64,7 +64,7 @@ namespace BusinessLogic
         public override object Add(object obj, string ProbId)
         {
             ProblemsDTO prob = (ProblemsDTO)obj;
-            if (prob.Statut == null) prob.Statut = "Random";
+            if (prob.Statut == null) prob.Statut = "Standard";
             try
             {
                 using (var db = new PFEDatabaseEntities())
