@@ -87,28 +87,40 @@ namespace BusinessLogic
 
             // int integerId = Int32.Parse(id);
             string message = "";
-            string text = obj.ToString() + " \t ";
-            Console.WriteLine(text);
+
+            string loc = machines.First().local;
+      
             try
             {
 
                 using (var db = new PFEDatabaseEntities())
                 {
+                  
+                    List<Machines> allMach = db.Machines.Where(m => m.local == loc ).ToList();
+                    var result = allMach.Where(m => machines.All(m2 => m2.MachineName != m.MachineName));
+                    List<Machines> inactiveMach = result.ToList();
+
+                    foreach(Machines machine in inactiveMach)
+                    {
+                        machine.Statut = "inactive";
+                    }
+                    db.SaveChanges();
+
                     foreach (MachinesDTO machine in machines)
                     {
-
-                        if (db.Machines.Where(cont => cont.MachineName == machine.MachineName).Count() > 0)
+                      Machines activate=  db.Machines.Where(cont => cont.MachineName == machine.MachineName).First();
+                            if (activate != null)
                         {
-                            message += machine.MachineName + "existe déjà \t";
-                            Console.WriteLine(text);
-
-                            return message;
+                            message += activate.MachineName + "existe déjà \t";
+                            activate.Statut = "active";
+                            db.SaveChanges();
+                            continue;
                         }
 
                         if (db.Machines.Where(cont => cont.MacAddress == machine.MacAddress).Count() > 0)
                         {
                             message += machine.MacAddress + "existe déjà  adress invalide \t";
-                            return message;
+                            continue;
                         }
 
                         db.Machines.Add(
@@ -121,7 +133,7 @@ namespace BusinessLogic
                                 local = machine.local,
                                 IpAddress = machine.IpAddress
                             }
-                    );
+                        );
                     }
 
                     db.SaveChanges();
@@ -150,19 +162,8 @@ namespace BusinessLogic
                     m.Comment = machine.Comment;
                     m.Statut = machine.Statut;
                     m.local = machine.local;
-
                     //db.Machines.Remove(db.Machines.First(contr => contr.MachineName == machine.MachineName));
-
                     db.SaveChanges();
-
-                    //db.Machines.Add(new Machines()
-                    //{
-                    //    MachineName = machine.MachineName,
-                    //    MacAddress = machine.MacAddress,
-                    //    Comment = machine.Comment,
-                    //    Statut = machine.Statut,
-                    //    local = machine.local
-                    //});
 
                 }
             }

@@ -18,6 +18,12 @@ namespace BusinessLogic
                 using (var db = new PFEDatabaseEntities())
                 {
                     result = db.Problems.ToList();
+                    foreach (Problems p in result)
+                    {
+                        p.Machines = db.Machines.Where(m => m.MachineId == p.MachineId).First();
+                        p.Users = db.Users.Where(u => u.UserId == p.UserId).First();
+                    }
+
                 }
             }
             catch (Exception e)
@@ -35,7 +41,7 @@ namespace BusinessLogic
             if (id == "0")
             {
                 return GetAll();
-            }      
+            }
             else
             {
                 try
@@ -65,11 +71,13 @@ namespace BusinessLogic
                 {
                     //var result = db.Problems.FirstOrDefault(c => c.ProblemId == prob.ProblemId);
                     //if (!obj.Equals(result))
+                    int MachineId = db.Machines.Where(lm => lm.MachineName == prob.MachineName).First().MachineId;
+                    Machines m = db.Machines.Where(mach => mach.MachineId == MachineId).First();
                     db.Problems.Add(new Problems()
                     {
                         DateProb = DateTime.Now,//TODO on mets la date nous même  ? 
                         Fixed = false,
-                        MachineId = db.Machines.Where(m => m.MachineName == prob.MachineName).First().MachineId,
+                        Machines = m,
                         //UserId = db.Users.Where(u => u.UserId == prob.UserId).First().UserId,
                         UserId = 20,//TODO to be modified if relation with user
                         Photo = prob.Photo,

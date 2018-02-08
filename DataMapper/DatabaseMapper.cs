@@ -66,6 +66,11 @@ namespace DataMapper
 
         public static ProblemsDTO MapToProblemsDTO(Problems problem)
         {
+            //if (problem.Machines == null)
+            //{
+               // problem.Machines = new Machines();
+               // problem.Machines.MachineName = "unknwown machine";
+            //};
             return new ProblemsDTO
             {
                 ProblemId = problem.ProblemId,
@@ -75,7 +80,8 @@ namespace DataMapper
                 UserId = problem.UserId,
                 DateProb = problem.DateProb,
                 Statut = problem.Statut,
-                isFixed = problem.Fixed
+                isFixed = problem.Fixed,
+                UserEmail = problem.UserEmail
             };
         }
 
