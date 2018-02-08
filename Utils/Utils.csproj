@@ -69,9 +69,9 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TestTests\TestTests.csproj">
+    <ProjectReference Include="..\TestTests\Tests.csproj">
       <Project>{83e6b113-2a09-4964-9b9c-a0c6947561b6}</Project>
-      <Name>TestTests</Name>
+      <Name>Tests</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
