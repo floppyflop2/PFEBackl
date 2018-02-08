@@ -5,11 +5,20 @@ using Models;
 using DataModel;
 using System.Collections.Generic;
 using static DataMapper.DatabaseMapper;
+using System.Collections;
+using System.Data.Entity;
+using System.Data.Linq;
 
 namespace BusinessLogic
 {
     public class MachinesBusinessLogic : BaseBusinessLogic
-    { 
+    {
+        //private  PFEDatabaseEntities db; 
+        //public MachinesBusinessLogic(PFEDatabaseEntities dbx)
+        //{
+        //    this.db = dbx;
+        //}
+
         private object GetAll()
         {
             List<Machines> result = null;
@@ -45,7 +54,7 @@ namespace BusinessLogic
                 {
                     using (var db = new PFEDatabaseEntities())
                     {
-                        result = db.Machines.Where(c => c.MachineId == machineId).ToList();
+                        result = db.Machines.Where(c => c.MachineName == id).ToList();
                     }
                 }
                 catch (Exception e)
@@ -72,61 +81,89 @@ namespace BusinessLogic
 
         public override object Add(object obj, string id)
         {
-            MachinesDTO machine = (MachinesDTO)obj;
-           // int integerId = Int32.Parse(id);
+            List<MachinesDTO>
+                machines = (List<MachinesDTO>)obj;
+
+
+            // int integerId = Int32.Parse(id);
+            string message = "";
+            string text = obj.ToString() + " \t ";
+            Console.WriteLine(text);
             try
             {
+
                 using (var db = new PFEDatabaseEntities())
                 {
-                    if (db.Machines.Where(cont => cont.MachineName == machine.MachineName).Count() > 0)
-                        return "Already exists.";
+                    foreach (MachinesDTO machine in machines)
+                    {
 
-                    db.Machines.Add(
-                        new Machines()
+                        if (db.Machines.Where(cont => cont.MachineName == machine.MachineName).Count() > 0)
                         {
-                            MachineName = machine.MachineName,
-                            MacAddress = machine.MacAddress,
-                            Comment = machine.Comment,
-                            Statut = machine.Statut,
-                            local = machine.local,
-                            IpAddress = machine.IpAddress
+                            message += machine.MachineName + "existe déjà \t";
+                            Console.WriteLine(text);
+
+                            return message;
                         }
+
+                        if (db.Machines.Where(cont => cont.MacAddress == machine.MacAddress).Count() > 0)
+                        {
+                            message += machine.MacAddress + "existe déjà  adress invalide \t";
+                            return message;
+                        }
+
+                        db.Machines.Add(
+                            new Machines()
+                            {
+                                MachineName = machine.MachineName,
+                                MacAddress = machine.MacAddress,
+                                Comment = machine.Comment,
+                                Statut = machine.Statut,
+                                local = machine.local,
+                                IpAddress = machine.IpAddress
+                            }
                     );
+                    }
+
                     db.SaveChanges();
                 }
             }
             catch (Exception e)
             {
-                return e.Message;
+                return e.Message + e.StackTrace;
             }
-            return "";
+            return message;
         }
 
         public override void Modify(object obj, string userId)
         {
             MachinesDTO machine = (MachinesDTO)obj;
-           //int integerId = Int32.Parse(userId);
+            //int integerId = Int32.Parse(userId);
             try
             {
                 using (var db = new PFEDatabaseEntities())
                 {
                     if (db.Machines.Where(w => w.MachineName == machine.MachineName).Count() == 0)
                         return;
+                    Machines m = db.Machines.First(contr => contr.MachineName == machine.MachineName);
+                    m.MachineName = machine.MachineName;
+                    m.MacAddress = machine.MacAddress;
+                    m.Comment = machine.Comment;
+                    m.Statut = machine.Statut;
+                    m.local = machine.local;
 
-                    db.Machines.Remove(db.Machines.First(contr => contr.MachineName == machine.MachineName));
-
-                    db.SaveChanges();
-
-                    db.Machines.Add(new Machines()
-                    {
-                        MachineName = machine.MachineName,
-                        MacAddress = machine.MacAddress,
-                        Comment = machine.Comment,
-                        Statut = machine.Statut,
-                        local = machine.local
-                    });
+                    //db.Machines.Remove(db.Machines.First(contr => contr.MachineName == machine.MachineName));
 
                     db.SaveChanges();
+
+                    //db.Machines.Add(new Machines()
+                    //{
+                    //    MachineName = machine.MachineName,
+                    //    MacAddress = machine.MacAddress,
+                    //    Comment = machine.Comment,
+                    //    Statut = machine.Statut,
+                    //    local = machine.local
+                    //});
+
                 }
             }
             catch (Exception e)

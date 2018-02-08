@@ -1,15 +1,23 @@
-﻿using Models;
+﻿
+using System;
+using Models;
 using System.Collections.Generic;
 using QRCoder;
 using iTextSharp.text;
 using System.IO;
+using System.Net.Http;
+using iTextSharp.text.pdf;
+using System.Net;
+using Org.BouncyCastle.Asn1.Ocsp;
+using System.Net.Http.Headers;
+using DataModel;
 
 namespace BusinessLogic
 {
     public class QrCodeBusinessLogic : BaseBusinessLogic
     {
 
-        public object Get(string id)
+        public override object Get(string id)
         {
             // local017
             // 0
@@ -31,7 +39,7 @@ namespace BusinessLogic
             QRCodeGenerator qrGenerator = new QRCodeGenerator();
             MemoryStream workStream = new MemoryStream();
             int i = 0;
-
+            PdfWriter.GetInstance(doc, workStream).CloseStream = false;
             doc.Open();
             foreach (MachinesDTO m in machines)
             {
@@ -46,14 +54,47 @@ namespace BusinessLogic
                     doc.NewPage();
                 i++;
             }
+
+            byte[] byteInfo = workStream.ToArray();
+
             doc.Close();
 
-            // clean le stream pas vraiment necessaire 
-            byte[] byteInfo = workStream.ToArray();
-            workStream.Write(byteInfo, 0, byteInfo.Length);
-            workStream.Position = 0;
 
-            return File(workStream, "application/pdf", "qr_machines.pdf");
+
+
+
+            //IHttpActionResult response;
+            //HttpResponseMessage responseMsg = new HttpResponseMessage(HttpStatusCode.OK);
+            //responseMsg.Content = new ByteArrayContent(byteInfo);
+            //responseMsg.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
+            //responseMsg.Content.Headers.ContentDisposition.FileName = "etst.pdf";
+            //responseMsg.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
+            //response = ResponseMessage(responseMsg);
+            //return response;
+            return null;
+        }
+
+
+        public virtual object Add(object obj, string id)
+        {
+            throw new Exception("Not implemented for this object");
+        }
+
+        public virtual void Modify(object obj, string id)
+        {
+            throw new Exception("Not implemented for this object");
+        }
+
+        public virtual void Remove(object obj)
+        {
+            throw new Exception("Not implemented for this object");
+        }
+
+
+        public void Dispose()
+        {
+
         }
     }
+
 }

@@ -31,7 +31,22 @@ namespace DataMapper
                 MacAddress = machine.MacAddress,
                 Comment = machine.Comment,
                 Statut = machine.Statut,
-                local = machine.local
+                local = machine.local,
+                IpAddress = machine.IpAddress
+            };
+        }
+
+        public static Machines MapToMachines(MachinesDTO machine)
+        {
+            return new Machines()
+            {
+                //MachineId = rnd.Next(20000),
+                MachineName = machine.MachineName,
+                MacAddress = machine.MacAddress,
+                Comment = machine.Comment,
+                Statut = machine.Statut,
+                local = machine.local,
+                IpAddress = machine.IpAddress
             };
         }
 
@@ -42,6 +57,13 @@ namespace DataMapper
             return listOfMachines;
         }
 
+        public static List<Machines> MapToMachines(List<MachinesDTO> machines)
+        {
+            List<Machines> listOfMachines = new List<Machines>();
+            machines.ForEach(m => listOfMachines.Add(MapToMachines(m)));
+            return listOfMachines;
+        }
+
         public static ProblemsDTO MapToProblemsDTO(Problems problem)
         {
             return new ProblemsDTO
@@ -49,7 +71,7 @@ namespace DataMapper
                 ProblemId = problem.ProblemId,
                 ProbDescription = problem.ProbDescription,
                 Photo = problem.Photo,
-                MachineId = problem.MachineId,
+                MachineName = problem.Machines.MachineName,
                 UserId = problem.UserId,
                 DateProb = problem.DateProb,
                 Statut = problem.Statut,
