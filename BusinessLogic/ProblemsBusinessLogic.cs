@@ -95,7 +95,7 @@ namespace BusinessLogic
             return "add succeeded";
         }
 
-        public override void Modify(object obj, string id)
+        public override object Modify(object obj, string id)
         {
             ProblemsDTO prob = (ProblemsDTO)obj;
             try
@@ -103,23 +103,22 @@ namespace BusinessLogic
                 using (var db = new PFEDatabaseEntities())
                 {
                     if (db.Problems.Where(p => p.ProblemId == prob.ProblemId).Count() == 0)
-                        return;
+                        //return "this problem doesn't exist in database";
+                        return "problem doesn't exist";
 
-                    db.Problems.Remove(db.Problems.First(p => p.ProblemId == prob.ProblemId));
-                    db.SaveChanges();
+                    //db.Problems.Remove(db.Problems.First(p => p.ProblemId == prob.ProblemId));
+                    //db.SaveChanges();
+                    Problems problem = db.Problems.Where(p => p.ProblemId == prob.ProblemId).First();
 
-                    db.Problems.Add(new Problems()
-                    {
-                        DateProb = DateTime.Now,
-                        Fixed = false,
-                        MachineId = db.Machines.Where(m => m.MachineName == prob.MachineName).First().MachineId,
-                        UserId = db.Users.Where(u => u.UserId == prob.UserId).First().UserId,
-                        Photo = prob.Photo,
-                        ProbDescription = prob.ProbDescription,
-                        Statut = prob.Statut,
-                        UserEmail = prob.UserEmail
+                    problem.DateProb = DateTime.Now;
+                    problem.Fixed = false;
+                    problem.MachineId = db.Machines.Where(m => m.MachineName == prob.MachineName).First().MachineId;
+                    problem.UserId = db.Users.Where(u => u.UserId == prob.UserId).First().UserId;
+                    problem.Photo = prob.Photo;
+                    problem.ProbDescription = prob.ProbDescription;
+                    problem.Statut = prob.Statut;
+                    problem.UserEmail = prob.UserEmail;
 
-                    });
                     db.SaveChanges();
                 }
             }
@@ -127,9 +126,10 @@ namespace BusinessLogic
             {
                 throw new Exception(e.Message + "problem modified");
             }
+            return "Modify problem succeeded";
         }
 
-        public override void Remove(object obj)
+        public override object Remove(object obj)
         {
             ProblemsDTO prob = (ProblemsDTO)obj;
 
@@ -138,7 +138,7 @@ namespace BusinessLogic
                 using (var db = new PFEDatabaseEntities())
                 {
                     if (db.Problems.Where(p => p.ProblemId == prob.ProblemId).Count() == 0)
-                        return;
+                        return "remove problem failed problem doesn't exist ";
 
                     db.Problems.Remove(db.Problems.First(p => p.ProblemId == prob.ProblemId));
 
@@ -150,6 +150,7 @@ namespace BusinessLogic
             {
                 throw new Exception(e.Message + "problem removing");
             }
+            return "removed succeeded";
         }
 
 

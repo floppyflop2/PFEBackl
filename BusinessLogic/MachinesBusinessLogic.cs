@@ -87,42 +87,47 @@ namespace BusinessLogic
 
             // int integerId = Int32.Parse(id);
             string message = "";
-
+           
             string loc = machines.First().local;
-      
+
             try
             {
 
                 using (var db = new PFEDatabaseEntities())
                 {
-                  
-                    List<Machines> allMach = db.Machines.Where(m => m.local == loc ).ToList();
-                    var result = allMach.Where(m => machines.All(m2 => m2.MachineName != m.MachineName));
-                    List<Machines> inactiveMach = result.ToList();
-
-                    foreach(Machines machine in inactiveMach)
+                    if(db.Machines.Count() != 0)
                     {
-                        machine.Statut = "inactive";
+                        List<Machines> allMach = db.Machines.Where(m => m.local == loc).ToList();
+                        var result = allMach.Where(m => machines.All(m2 => m2.MachineName != m.MachineName));
+                        List<Machines> inactiveMach = result.ToList();
+
+                        foreach (Machines machine in inactiveMach)
+                        {
+                            machine.Statut = "inactive";
+                        }
+                        db.SaveChanges();
                     }
-                    db.SaveChanges();
+                  
 
                     foreach (MachinesDTO machine in machines)
                     {
-                      Machines activate=  db.Machines.Where(cont => cont.MachineName == machine.MachineName).First();
+                        if (db.Machines.Count() != 0)
+                        {
+                            Machines activate = db.Machines.Where(cont => cont.MachineName == machine.MachineName).First();
                             if (activate != null)
-                        {
-                            message += activate.MachineName + "existe déjà \t";
-                            activate.Statut = "active";
-                            db.SaveChanges();
-                            continue;
-                        }
+                            {
+                             //   message += activate.MachineName + "existe déjà \t";
+                                activate.Statut = "active";
+                                db.SaveChanges();
+                                continue;
+                            }
 
-                        if (db.Machines.Where(cont => cont.MacAddress == machine.MacAddress).Count() > 0)
-                        {
-                            message += machine.MacAddress + "existe déjà  adress invalide \t";
-                            continue;
+                            if (db.Machines.Where(cont => cont.MacAddress == machine.MacAddress).Count() > 0)
+                            {
+                                message += machine.MacAddress + machine.MacAddress + "existe déjà  adress invalide \t";
+                                continue;
+                            }
                         }
-
                         db.Machines.Add(
                             new Machines()
                             {
@@ -135,8 +140,10 @@ namespace BusinessLogic
                             }
                         );
                     }
-
+                    
                     db.SaveChanges();
+
+                    message += "add Machines succeeded";
                 }
             }
             catch (Exception e)
@@ -146,7 +153,7 @@ namespace BusinessLogic
             return message;
         }
 
-        public override void Modify(object obj, string userId)
+        public override object Modify(object obj, string userId)
         {
             MachinesDTO machine = (MachinesDTO)obj;
             //int integerId = Int32.Parse(userId);
@@ -155,7 +162,7 @@ namespace BusinessLogic
                 using (var db = new PFEDatabaseEntities())
                 {
                     if (db.Machines.Where(w => w.MachineName == machine.MachineName).Count() == 0)
-                        return;
+                        return "machine doesn't exist";
                     Machines m = db.Machines.First(contr => contr.MachineName == machine.MachineName);
                     m.MachineName = machine.MachineName;
                     m.MacAddress = machine.MacAddress;
@@ -171,9 +178,10 @@ namespace BusinessLogic
             {
                 throw new Exception(e.Message);
             }
+            return "remove Machine succeeded";
         }
 
-        public override void Remove(object obj)
+        public override object Remove(object obj)
         {
             MachinesDTO machine = (MachinesDTO)obj;
             try
@@ -188,7 +196,7 @@ namespace BusinessLogic
             {
                 throw new Exception(e.Message);
             }
-
+            return "remove Machine succeeded";
         }
 
         public void Dispose()

@@ -28,7 +28,7 @@ namespace BusinessLogic
 
             if (id.StartsWith("local"))
             {
-                machines = machines.FindAll(w => w.local == id.Substring(4));
+                machines = machines.FindAll(w => w.local == id.Substring(5));
             }
             else if (id != "0")
             {
@@ -36,42 +36,36 @@ namespace BusinessLogic
             }
 
             Document doc = new Document(PageSize.A4);
-            QRCodeGenerator qrGenerator = new QRCodeGenerator();
             MemoryStream workStream = new MemoryStream();
             int i = 0;
-            PdfWriter.GetInstance(doc, workStream).CloseStream = false;
+            PdfWriter.GetInstance(doc, workStream);
             doc.Open();
+            doc.Add(new Paragraph("aight"));
+            string url = "https://stormy-dawn-50375.herokuapp.com/report/";
+            
             foreach (MachinesDTO m in machines)
             {
-                QRCodeData qrCodeData = qrGenerator.CreateQrCode(m.MachineName, QRCodeGenerator.ECCLevel.Q);
-                QRCode qrcode = new QRCode(qrCodeData);
-                System.Drawing.Image img = qrcode.GetGraphic(20);
-                iTextSharp.text.Image pdfImage = iTextSharp.text.Image.GetInstance(img, System.Drawing.Imaging.ImageFormat.Jpeg);
-                pdfImage.ScalePercent(25);
+                BarcodeQRCode barcodeQRCode = new BarcodeQRCode(url + m.MachineName, 144, 144, null);
+                var pdfImg = barcodeQRCode.GetImage();
                 doc.Add(new Paragraph(m.MachineName));
-                doc.Add(pdfImage);
+                doc.Add(pdfImg);
                 if (i % 3 == 0 && i != 0)
                     doc.NewPage();
                 i++;
             }
-
-            byte[] byteInfo = workStream.ToArray();
-
+            
             doc.Close();
 
-
-
-
-
-            //IHttpActionResult response;
-            //HttpResponseMessage responseMsg = new HttpResponseMessage(HttpStatusCode.OK);
-            //responseMsg.Content = new ByteArrayContent(byteInfo);
-            //responseMsg.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
-            //responseMsg.Content.Headers.ContentDisposition.FileName = "etst.pdf";
-            //responseMsg.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
-            //response = ResponseMessage(responseMsg);
-            //return response;
-            return null;
+            byte[] pdf = workStream.ToArray();
+            String base64 = Convert.ToBase64String(pdf);
+            /*HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+            result.Content = new ByteArrayContent(pdf);
+            result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("inline");
+            result.Content.Headers.ContentDisposition.FileName = "MyPdf.pdf";
+            result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
+    */        
+    return "data:application/pdf;base64," + base64;
+            //return ;
         }
 
 
@@ -80,12 +74,12 @@ namespace BusinessLogic
             throw new Exception("Not implemented for this object");
         }
 
-        public virtual void Modify(object obj, string id)
+        public virtual object Modify(object obj, string id)
         {
             throw new Exception("Not implemented for this object");
         }
 
-        public virtual void Remove(object obj)
+        public virtual object Remove(object obj)
         {
             throw new Exception("Not implemented for this object");
         }

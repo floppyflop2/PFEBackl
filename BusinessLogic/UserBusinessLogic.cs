@@ -70,10 +70,10 @@ namespace BusinessLogic
             {
                 throw new Exception(e.Message);
             }
-            return "";
+            return "add User succeeded";
         }
 
-        public override void Modify(object obj, string id)
+        public override object Modify(object obj, string id)
         {
             UserDTO user = (UserDTO)obj;
 
@@ -90,9 +90,10 @@ namespace BusinessLogic
             {
                 throw new Exception(e.Message);
             }
+            return "modify User succeeded";
         }
 
-        public override void Remove(object obj)
+        public override object Remove(object obj)
         {
             UserDTO usr = (UserDTO)obj;
             try
@@ -107,6 +108,7 @@ namespace BusinessLogic
             {
                 throw new Exception(e.Message);
             }
+            return "Remove User succeeded";
         }
         
      

@@ -47,7 +47,7 @@ namespace BusinessLogic
             return "add succeed";
         }
 
-        public override void Modify(object obj, string id)
+        public override object Modify(object obj, string id)
         {
             MachinesDTO mach = (MachinesDTO)obj;
             try
@@ -66,10 +66,10 @@ namespace BusinessLogic
             {
                 throw new Exception( e.Message);
             }
-            //return "add succeed";
+            return "modify succeed";
         }
 
-        public override void Remove(object obj)
+        public override object Remove(object obj)
         {
             MachinesDTO mach = (MachinesDTO)obj;
             try
@@ -85,7 +85,7 @@ namespace BusinessLogic
             {
                 throw new Exception(e.Message);
             }
-            //return "add succeed";
+            return "remove succeed";
         }
 
     }
